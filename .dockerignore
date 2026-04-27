@@ -1,0 +1,36 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Git
+.git
+.gitignore
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Model files (optional if large)
+*.h5
+*.keras
+*.pkl
+
+# Streamlit cache
+.streamlit/
+
+# Docker files (optional)
+Dockerfile
+.dockerignore
+
+# Notebooks
+*.ipynb
