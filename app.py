@@ -165,7 +165,7 @@ def render_point_result(val: float, model_name: str, pipeline_label: str):
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
         value=val,
-        number={"prefix": "₹ ", "valueformat": ",.0f"},
+        number={"prefix": "€ ", "valueformat": ",.0f"},
         gauge={
             "axis": {"range": [0, val * 2.2]},
             "bar":  {"color": "#667eea"},
@@ -212,7 +212,7 @@ def render_quantile_result(low: float, med: float, high: float, model_name: str,
     ))
     fig.update_layout(
         title="Prediction Interval",
-        yaxis_title="Sales (₹)",
+        yaxis_title="Sales (€)",
         height=280, margin=dict(t=40, b=0), showlegend=False,
     )
     st.plotly_chart(fig, use_container_width=True)
@@ -551,7 +551,7 @@ with tab_store:
 
                 st.dataframe(
                     df_cmp.assign(Formatted=lambda d: d["Predicted Sales"].apply(format_inr))
-                          .rename(columns={"Formatted": "Predicted Sales (₹)"})
+                          .rename(columns={"Formatted": "Predicted Sales (€)"})
                           .drop(columns=["Predicted Sales"]),
                     use_container_width=True, hide_index=True,
                 )

@@ -90,10 +90,10 @@ def _quantile_result(raw: np.ndarray, target_scaler) -> Dict[str, float]:
 
 
 def format_inr(value: float) -> str:
-    """Format as Indian Rupees with Lakh/Crore suffix."""
+    """Format as Euros with Lakh/Crore suffix."""
     if value >= 1_00_00_000:
-        return f"₹ {value / 1_00_00_000:.2f} Cr"
+        return f"€ {value / 1_00_00_000:.2f} Cr"
     elif value >= 1_00_000:
-        return f"₹ {value / 1_00_000:.2f} L"
+        return f"€ {value / 1_00_000:.2f} L"
     else:
-        return f"₹ {value:,.0f}"
+        return f"€ {value:,.0f}"
