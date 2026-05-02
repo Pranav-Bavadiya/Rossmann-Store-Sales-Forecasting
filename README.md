@@ -1,4 +1,10 @@
 # 🛒 Rossmann Sales Predictor
+This website is made using deep learning models
+
+for time series models like ARIMA etc.. 
+code file of site is given in timeseries model's website
+and link of site is below :
+https://rossmann-store-sales-forecasting.streamlit.app/?embed_options=light_theme
 
 Two completely independent deep-learning pipelines in one Streamlit app:
 
