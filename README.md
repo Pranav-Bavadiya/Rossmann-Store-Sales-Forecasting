@@ -1,162 +1,61 @@
-# 🛒 Rossmann Sales Predictor
-This website is made using deep learning models
+# 📊 Rossmann Store Sales Forecasting
 
-for time series models like ARIMA etc.. 
-code file of site is given in timeseries model's website
-and link of site is below :
-https://rossmann-store-sales-forecasting.streamlit.app/?embed_options=light_theme
+🚀 A comprehensive forecasting project using classical time series and deep learning models to predict retail sales across **1,115 Rossmann stores**.
 
-Two completely independent deep-learning pipelines in one Streamlit app:
 
-| Pipeline | Features | Input Shape | Models folder | Scaler |
-|---|---|---|---|---|
-| **Aggregate** | 22 | `(1, 60, 22)` or `(1, 1320)` for FNN | `saved_models/aggregate/` | 22-feature scaler |
-| **Store-wise** | 30 | `(1, 60, 30)` or `(1, 1800)` for FNN | `saved_models/store/` | 30-feature scaler |
+## 🧠 Overview
 
-> ⚠️ **The two pipelines are NOT interchangeable.**  A model trained on 22 aggregate features
-> cannot be used in the store-wise tab (different feature count and scaling).
+Accurate sales forecasting is essential for efficient inventory management and minimizing losses in retail.
 
----
+This project explores multiple forecasting techniques using the **Rossmann Store Sales dataset**, considering key influencing factors such as:
 
-## 📁 Project Structure
+* 📅 Seasonality & time trends
+* 🎉 Promotions & public holidays
+* 🏫 School holidays
+* 🏪 Competition
 
-```
-rossmann_predictor/
-│
-├── app.py                              ← Streamlit UI (run this)
-│
-├── models/
-│   ├── load_models.py                  ← Separate registries for aggregate vs store models
-│   └── predict.py                      ← Inference (point + quantile, FNN flat + 3-D RNN)
-│
-├── preprocessing/
-│   ├── aggregate.py                    ← 22-feature aggregate pipeline (auto + manual)
-│   └── store.py                        ← 30-feature per-store pipeline
-│
-├── utils/
-│   ├── feature_engineering.py          ← Date, cyclical, lag, competition, Promo2 features
-│   ├── sequence.py                     ← Builds (1,1320) for FNN or (1,60,F) for RNN/GRU
-│   └── scaler.py                       ← Loads scalers from the correct pipeline subfolder
-│
-├── data/
-│   ├── train.csv                       ← YOU PROVIDE (Rossmann training data)
-│   └── store.csv                       ← YOU PROVIDE (store metadata)
-│
-├── saved_models/
-│   │
-│   ├── aggregate/                      ← AGGREGATE models (22 features, 60 timesteps)
-│   │   ├── fnn_model.keras             ← input shape (None, 1320)  output (None, 1)
-│   │   ├── gru_model.keras             ← input shape (None, 60, 22) output (None, 1)
-│   │   ├── nhits_model.keras           ← input shape (None, 60, 22) output (None, 1)
-│   │   ├── fnn_quantile_model.keras    ← input shape (None, 1320)  output (None, 3)
-│   │   ├── rnn_quantile_model.keras    ← input shape (None, 60, 22) output (None, 3)
-│   │   ├── gru_quantile_model.keras    ← input shape (None, 60, 22) output (None, 3)
-│   │   ├── nhits_quantile_model.keras  ← input shape (None, 60, 22) output (None, 3)
-│   │   ├── feature_scaler.pkl          ← MinMaxScaler fitted on 22 aggregate features
-│   │   └── target_scaler.pkl           ← MinMaxScaler fitted on aggregate Sales
-│   │
-│   └── store/                          ← STORE-WISE models (30 features, 60 timesteps)
-│       ├── fnn_model.keras             ← input shape (None, 1800)  output (None, 1)
-│       ├── gru_model.keras             ← input shape (None, 60, 30) output (None, 1)
-│       ├── nhits_model.keras           ← input shape (None, 60, 30) output (None, 1)
-│       ├── fnn_quantile_model.keras    ← input shape (None, 1800)  output (None, 3)
-│       ├── rnn_quantile_model.keras    ← input shape (None, 60, 30) output (None, 3)
-│       ├── gru_quantile_model.keras    ← input shape (None, 60, 30) output (None, 3)
-│       ├── nhits_quantile_model.keras  ← input shape (None, 60, 30) output (None, 3)
-│       ├── feature_scaler.pkl          ← MinMaxScaler fitted on 30 store features
-│       └── target_scaler.pkl           ← MinMaxScaler fitted on per-store Sales
-│
-└── requirements.txt
-```
+We implemented and compared both **traditional statistical models** and **modern deep learning approaches**.
 
----
+## 🌐 Live Applications
 
-## ⚡ Quick Start
+### ⏳ Time Series Forecasting App
 
-```bash
-pip install -r requirements.txt
+🔗 [https://rossmann-store-sales-forecasting.streamlit.app/?embed_options=light_theme](https://rossmann-store-sales-forecasting.streamlit.app/?embed_options=light_theme)
 
-# 1. Add data files
-cp /path/to/train.csv data/
-cp /path/to/store.csv data/
+### 🤖 Deep Learning Forecasting App
 
-# 2. Add AGGREGATE models (you already have these)
-cp /path/to/fnn_model.keras            saved_models/aggregate/
-cp /path/to/gru_model.keras            saved_models/aggregate/
-cp /path/to/nhits_model.keras          saved_models/aggregate/
-cp /path/to/fnn_quantile_model.keras   saved_models/aggregate/
-cp /path/to/rnn_quantile_model.keras   saved_models/aggregate/
-cp /path/to/gru_quantile_model.keras   saved_models/aggregate/
-cp /path/to/nhits_quantile_model.keras saved_models/aggregate/
-cp /path/to/feature_scaler.pkl         saved_models/aggregate/
-cp /path/to/target_scaler.pkl          saved_models/aggregate/
+🔗 [https://rossmann-store-sales-forecasting-1.onrender.com](https://rossmann-store-sales-forecasting-1.onrender.com)
 
-# 3. Train STORE models (separate training) → place them in saved_models/store/
-#    (see feature list below)
 
-# 4. Run the app
-streamlit run app.py
-```
+## ⚙️ Models Used
 
----
+### 📈 Classical Time Series Models
 
-## 📐 Aggregate Feature Columns (22)
+* 🔹 ARIMA
+* 🔹 SARIMAX (with external factors)
 
-Training and inference must use these columns in this exact order:
+### 🔮 Advanced Forecasting
 
-```python
-AGGREGATE_FEATURE_COLS = [
-    "DayOfWeek", "Promo", "SchoolHoliday",
-    "Year", "Month", "Day", "WeekOfYear", "IsWeekend",
-    "Month_sin", "Month_cos", "DayOfWeek_sin", "DayOfWeek_cos",
-    "Sales_lag_1", "Sales_lag_7", "Sales_lag_14", "Sales_lag_21", "Sales_lag_28",
-    "Rolling_mean_7", "Rolling_mean_14", "Rolling_mean_30", "Rolling_std_7",
-    "Trend",
-]  # 22 columns
-```
+* 🔹 Prophet
 
-## 📐 Store-wise Feature Columns (30)
+### 🤖 Deep Learning Models
 
-```python
-STORE_FEATURE_COLS = [
-    "DayOfWeek", "Promo", "SchoolHoliday",
-    "StoreType", "Assortment", "CompetitionDistance",
-    "Promo2", "CompetitionOpenDays", "Promo2RunningDays", "IsPromoMonth",
-    "Year", "Month", "Day", "WeekOfYear", "IsWeekend",
-    "Month_sin", "Month_cos", "DayOfWeek_sin", "DayOfWeek_cos",
-    "Sales_lag_1", "Sales_lag_7", "Sales_lag_14", "Sales_lag_21", "Sales_lag_28",
-    "Rolling_mean_7", "Rolling_mean_14", "Rolling_mean_30", "Rolling_std_7",
-    "Trend",
-]  # 30 columns
-```
+* 🔹 RNN (Recurrent Neural Network)
+* 🔹 GRU (Gated Recurrent Unit)
+* 🔹 LSTM (Long Short-Term Memory)
 
----
+### 📊 Uncertainty Estimation
 
-## 🔧 Input Shapes by Model Type
+* 🔹 Quantile Regression (for prediction intervals)
 
-| Model | Input for Aggregate | Input for Store |
-|-------|--------------------|--------------------|
-| FNN | `(1, 1320)` = 60×22 flat | `(1, 1800)` = 60×30 flat |
-| GRU | `(1, 60, 22)` 3-D | `(1, 60, 30)` 3-D |
-| RNN | `(1, 60, 22)` 3-D | `(1, 60, 30)` 3-D |
-| N-HiTS | `(1, 60, 22)` 3-D | `(1, 60, 30)` 3-D |
 
-`utils/sequence.py` handles this automatically based on model name.
+## 🚀 Features
 
----
+* 📊 Store-level and aggregate forecasting
+* 📅 Multi-factor analysis
+* 📉 Prediction intervals
+* 🌐 Interactive web applications
 
-## 🌟 App Features
+## 📌 Future Improvements
 
-- **Tab 1 — Aggregate Prediction**: Auto mode (pick date, data loaded automatically) + Manual mode (3 inputs)
-- **Tab 2 — Store-wise Prediction**: Pick store ID + date + promo/holiday; all other features auto-computed; store metadata preview; multi-store comparison chart
-- **Tab 3 — Data Insights**: Monthly sales trend, day-of-week analysis, promo impact, top stores, sales distribution
-- **Sidebar status dashboard**: Shows which scalers and models are loaded/missing
-- **Quantile output**: Lower / Median / Upper cards + bar chart
-- **Point output**: Gauge chart + ₹ formatted with Lakh/Crore suffix
-- **FNN flat input handled automatically** — no manual reshaping needed
-
----
-
-## ❓ Why are there two separate model sets?
-
-The aggregate pipeline **sums all stores** into a single global time series and trains on 22 date+lag features. The store pipeline trains on **individual store sales** and adds 8 more features describing the store itself (type, assortment, competition distance, Promo2 details). These are fundamentally different problems with different input dimensions — they cannot share models or scalers.
+* 📡 Real-time data integration
