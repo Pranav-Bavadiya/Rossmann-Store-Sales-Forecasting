@@ -26,7 +26,15 @@ We implemented and compared both **traditional statistical models** and **modern
 
 🔗 [https://rossmann-store-sales-forecasting-1.onrender.com](https://rossmann-store-sales-forecasting-1.onrender.com)
 
+## 📄 Project Documentation
 
+### 📑 Presentation
+
+🔗 [Project Presentation](./Rossmann_Sales_Forecasting_PPT.pdf)
+
+### 📝 Report
+
+🔗 [Project Report](./Project_Report.pdf)
 ## ⚙️ Models Used
 
 ### 📈 Classical Time Series Models
